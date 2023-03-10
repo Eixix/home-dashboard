@@ -1,9 +1,16 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Timer from './components/Timer.vue'
 </script>
 
 <template>
   <RouterView />
+  <div v-if="timers.length">
+    <div v-for="timer in timers">
+      <Timer :limit="10"></Timer>
+    </div>
+  </div>
+  <div class="else-text" v-else>No timers available</div>
 </template>
 
 <script>
@@ -13,11 +20,19 @@ export default {
       connection: null,
       connectionId: 1,
       connectionStates: { disconnected: 'disconnected', connected: 'connected' },
-      connectionState: 'disconnected'
+      connectionState: 'disconnected',
+      timers: []
     }
   },
 
-  methods: {},
+  methods: {
+    spawnTimer(data) {
+      console.log(data)
+      this.timers.push({
+        entity_id: data.event.data.entity_id
+      })
+    }
+  },
 
   created() {
     this.connection = new WebSocket(import.meta.env.VITE_HOMEASSISTANT_URL)
@@ -50,10 +65,11 @@ export default {
           this.connectionState = this.connectionStates.disconnected
           break
         case 'event':
-          console.log(data)
+          if (data.event.data?.entity_id?.includes('timer')) {
+            this.spawnTimer(data)
+          }
           break
         case 'result':
-          console.log(data)
           break
       }
     }
@@ -69,4 +85,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.else-text {
+  font-size: 50px;
+  color: white;
+}
+</style>
