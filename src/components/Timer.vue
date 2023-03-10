@@ -3,6 +3,17 @@
     <svg class="timer-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <g class="timer-circle">
         <circle class="time-elapsed-path" cx="50" cy="50" r="45" />
+        <path
+          class="time-left-path"
+          v-if="timeLeft > 0"
+          d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+          :style="{ strokeDasharray }"
+        ></path>
       </g>
     </svg>
     <div class="time-left-container">
@@ -23,6 +34,14 @@ export default {
       const minutes = Math.floor(timeLeft / 60)
       const seconds = timeLeft % 60
       return `${this.padToTwo(minutes)}:${this.padToTwo(seconds)}`
+    },
+    strokeDasharray() {
+      const radius = 45
+      const total = 2 * Math.PI * radius
+      const timeFraction = this.timeLeft / this.limit
+      const adjTimeFraction = timeFraction - (1 - timeFraction) / this.limit
+      const elapsedDash = Math.floor(adjTimeFraction * total)
+      return `${elapsedDash} ${total}`
     }
   },
 
@@ -65,6 +84,19 @@ export default {
 .time-elapsed-path {
   stroke-width: 7px;
   stroke: #424242;
+}
+
+.time-left-path {
+  stroke-width: 7px;
+
+  stroke-linecap: round;
+
+  transform: rotate(90deg);
+  transform-origin: center;
+
+  transition: 1s linear all;
+
+  stroke: mediumaquamarine;
 }
 
 .time-left-container {
