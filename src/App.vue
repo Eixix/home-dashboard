@@ -20,7 +20,7 @@ export default {
   methods: {},
 
   created() {
-    this.connection = new WebSocket('ws://hass.home/api/websocket')
+    this.connection = new WebSocket(import.meta.env.VITE_HOMEASSISTANT_URL)
 
     this.connection.onmessage = (event) => {
       const data = JSON.parse(event.data)
