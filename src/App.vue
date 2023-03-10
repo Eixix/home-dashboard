@@ -7,7 +7,7 @@ import Timer from './components/Timer.vue'
   <RouterView />
   <div v-if="timers.length">
     <div v-for="timer in timers">
-      <Timer :limit="10"></Timer>
+      <Timer :limit="timer.time_remaining"></Timer>
     </div>
   </div>
   <div class="else-text" v-else>No timers available</div>
@@ -27,10 +27,29 @@ export default {
 
   methods: {
     spawnTimer(data) {
-      console.log(data)
-      this.timers.push({
-        entity_id: data.event.data.entity_id
-      })
+      const timer = JSON.parse(data.event.data.new_state.attributes.sorted_active)[1]
+      if (timer && timer[1].remainingTime > 0) {
+        if (
+          this.timers.reduce(
+            (acc, timer) => acc && timer.entity_id !== data.event.data.entity_id,
+            true
+          )
+        ) {
+          this.timers.push({
+            entity_id: data.event.data.entity_id,
+            time_remaining: timer[1].remainingTime / 1000
+          })
+        }
+      } else {
+        this.timers = this.timers.filter((timer) => timer.time_remaining > 0)
+        if (
+          data.event.data.new_state.state === 'unavailable' ||
+          !timer ||
+          timer[1].remainingTime <= 0
+        ) {
+          this.timers = this.timers.filter((timer) => timer.entity_id !== data.event.data.entity_id)
+        }
+      }
     }
   },
 
