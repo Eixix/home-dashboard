@@ -113,7 +113,6 @@ export default {
 
 .time-left-label {
   font-size: 50px;
-  font-family: 'Segoe UI';
   color: white;
 }
 </style>

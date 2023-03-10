@@ -27,7 +27,10 @@ export default {
 
   methods: {
     spawnTimer(data) {
-      const timer = JSON.parse(data.event.data.new_state.attributes.sorted_active)[1]
+      const timer =
+        JSON.parse(data.event.data.new_state.attributes.sorted_active)[0] ||
+        JSON.parse(data.event.data.new_state.attributes.sorted_active)[1]
+      console.log(data, timer)
       if (timer && timer[1].remainingTime > 0) {
         if (
           this.timers.reduce(

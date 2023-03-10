@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text&display=swap');
+
+:root {
+  --background-color: #1e1b26;
+  --foreground-color: #27283d;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: 'Golos Text', sans-serif;
+}
+
+#app {
+  max-width: 80%;
+  max-height: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+#app > div {
+  background-color: var(--foreground-color);
+  border-radius: 2rem;
+  padding: 2rem;
+  flex: 1;
+}
