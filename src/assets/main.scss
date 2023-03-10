@@ -21,11 +21,11 @@ body {
   flex-wrap: wrap;
   gap: 2rem;
   align-items: center;
-}
 
-#app > div {
-  background-color: var(--foreground-color);
-  border-radius: 2rem;
-  padding: 2rem;
-  flex: 1;
+  > div {
+    background-color: var(--foreground-color);
+    border-radius: 2rem;
+    padding: 2rem;
+    flex: 1;
+  }
 }
