@@ -72,7 +72,7 @@ export default {
 <style scoped>
 .timer {
   height: 300px;
-  width: 300px;
+  width: 100%;
   position: relative;
 }
 

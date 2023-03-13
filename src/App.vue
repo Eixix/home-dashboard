@@ -1,14 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Timer from './components/Timer.vue'
+import Calendar from './components/Calendar.vue'
 </script>
 
 <template>
   <RouterView />
   <div v-if="eventsForTheDay.length">
-    <ul v-for="event in eventsForTheDay">
-      <li>{{ event.start.dateTime }} - {{ event.end.dateTime }}: {{ event.summary }}</li>
-    </ul>
+    <Calendar :events="eventsForTheDay"></Calendar>
   </div>
   <div class="else-text" v-else>No events today!</div>
   <div v-if="timers.length">
